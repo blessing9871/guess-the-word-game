@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Word Guess Game</title>
+
+    <!-- 🔥 Link CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container">
+
+    <h1>🧠 Word Reveal Challenge</h1>
+    <p>Guess the word before it's fully revealed!</p>
+
+    <!-- score -->
+    <h3>Score: <span id="score">0</span></h3>
+
+    <p id="wordDisplay"></p>
+
+    <input type="text" id="guessInput" placeholder="Type and press Enter">
+
+    <br>
+
+    <button onclick="showHint()">Hint</button>
+    <p id="hintText"></p>
+
+</div>
+
+<!-- Flask → JS -->
+<script>
+    const WORD_FROM_FLASK = "{{ word }}";
+    const HINT_FROM_FLASK = "{{ hint }}";
+</script>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>
