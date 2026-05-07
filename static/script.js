@@ -1,3 +1,5 @@
+let timeLeft = 20;
+let timerElement = document.getElementById("timer");
 let score = 0;
 let word = WORD_FROM_FLASK;
 let hint = HINT_FROM_FLASK;
@@ -28,6 +30,21 @@ function revealLetter() {
     }
 }
 
+function startTimer() {
+    let countdown = setInterval(() => {
+        timeLeft--;
+        timerElement.innerText = timeLeft;
+
+        if (timeLeft <= 0) {
+            clearInterval(countdown);
+            clearInterval(interval); // stop letter reveal
+
+            alert("⏰ Time's up! The word was: " + word);
+            window.location.reload();
+        }
+    }, 1000);
+}
+
 function checkGuess() {
     let guessInput = document.getElementById("guessInput");
     let guess = guessInput.value.toLowerCase().trim();
@@ -37,16 +54,12 @@ function checkGuess() {
     if (guess === word) {
         alert("Correct! 🎉");
 
-        // 🔥 SCORE LOGIC
-        let revealedCount = revealed.filter(l => l !== "_").length;
-        let bonus = Math.max(5, (word.length - revealedCount) * 2);
-
-        score += 10 + bonus;
-
-        document.getElementById("score").innerText = score;
-
+        // stop letter reveal
         clearInterval(interval);
-        location.reload();
+
+        // stop timer (we will improve this later if needed)
+
+        window.location.reload();
     } else {
         alert("Try again!");
     }
@@ -75,3 +88,4 @@ let interval = setInterval(() => {
 }, 4500);
 
 updateDisplay();
+startTimer();

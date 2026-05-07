@@ -12,7 +12,8 @@ words = [
     {"word": "future", "hint": "Time that has not yet happened"},
     {"word": "focus", "hint": "To concentrate"},
     {"word": "keyboard", "hint": "A device used to type in inputs"},
-    {"word": "plate", "hint" : "A kitchen utensil used to eat."}
+    {"word": "plate", "hint" : "A flat dish used for serving food"},
+    {"word":"sugar", "hint": "A sweetner used in most things"}
 ]
 
 @app.route('/')
