@@ -1,8 +1,19 @@
 let timeLeft = 20;
 let timerElement = document.getElementById("timer");
-let score = 0;
 let word = WORD_FROM_FLASK;
 let hint = HINT_FROM_FLASK;
+let countdown;
+let interval;
+
+//Keep score between reloads
+let score = sessionStorage.getItem("score");
+
+if (!score) {
+    score = 0;
+} else {
+    score = parseInt(score);
+}
+
 
 let revealed = Array(word.length).fill("_");
 
@@ -31,7 +42,7 @@ function revealLetter() {
 }
 
 function startTimer() {
-    let countdown = setInterval(() => {
+    countdown = setInterval(() => {
         timeLeft--;
         timerElement.innerText = timeLeft;
 
@@ -57,7 +68,17 @@ function checkGuess() {
         // stop letter reveal
         clearInterval(interval);
 
-        // stop timer (we will improve this later if needed)
+        // stop timer 
+        clearInterval(countdown);
+        
+        //scoring
+        let earnedPoints = timeLeft * 5;
+
+        score += earnedPoints;
+
+        sessionStorage.setItem("score", score);
+        
+        document.getElementById("score").innerText = score;
 
         window.location.reload();
     } else {
@@ -79,7 +100,7 @@ document.getElementById("guessInput").addEventListener("keypress", function(even
 });
 
 // reveal letters every 8 seconds
-let interval = setInterval(() => {
+interval = setInterval(() => {
     if (remainingIndexes.length === 0) {
         clearInterval(interval);
     } else {
@@ -89,3 +110,4 @@ let interval = setInterval(() => {
 
 updateDisplay();
 startTimer();
+document.getElementById("score").innerText = score;
